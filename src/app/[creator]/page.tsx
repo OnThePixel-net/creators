@@ -49,7 +49,7 @@ export default async function CreatorPage({ params }: CreatorPageProps) {
     if (!data || data.length === 0) throw new Error('Creator not found');
     
     creatorData = data[0];
-  } catch { // ✅ Fixed: removed unused error parameter
+  } catch (error) {
     return (
       <div className="min-h-screen bg-gray-900 flex items-center justify-center px-4">
         <div className="text-center">
@@ -180,7 +180,7 @@ export async function generateMetadata({ params }: CreatorPageProps): Promise<Me
         description: `Folge ${creatorData.Name} auf all seinen Social Media Kanälen`
       }
     };
-  } catch { // ✅ Fixed: removed unused error parameter
+  } catch (error) {
     return {
       title: 'Creator nicht gefunden – OnThePixel',
       description: 'Der gesuchte Creator konnte nicht gefunden werden.',
