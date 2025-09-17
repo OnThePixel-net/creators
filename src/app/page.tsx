@@ -1,13 +1,63 @@
-import { Metadata } from 'next';
+import Link from 'next/link';
 
-export const metadata: Metadata = {
-  title: "Creator Hub - OnThePixel.net",
-  description: "Entdecke unsere Content Creator und folge ihnen auf all ihren Social Media Kanälen.",
+// TypeScript Interfaces
+interface Platform {
+  Icons: string;
+  Link: string;
+}
+
+interface CreatorData {
+  Minecarft_username: string;
+  Name: string;
+  Platforms: Platform[];
+}
+
+interface ApiResponse {
+  data: CreatorData[];
+}
+
+// Utility Functions
+const getCreatorSlug = (name: string): string => {
+  return name.toLowerCase().replace(/[^a-z0-9]/g, '');
 };
 
-export default function HomePage() {
+const getPlatformCount = (platforms: Platform[]): string => {
+  const count = platforms.length;
+  return count === 1 ? '1 Plattform' : `${count} Plattformen`;
+};
+
+const getMainPlatforms = (platforms: Platform[]): Platform[] => {
+  // Zeige die ersten 3 Plattformen als Preview
+  return platforms.slice(0, 3);
+};
+
+export default async function HomePage() {
+  // Fetch all creators
+  let creators: CreatorData[] = [];
+  
+  try {
+    const res = await fetch('https://cms.onthepixel.net/items/Creators', {
+      // Add cache revalidation for better performance
+      next: { revalidate: 300 } // 5 minutes
+    });
+    
+    if (!res.ok) throw new Error('API Error');
+    
+    const data: ApiResponse = await res.json();
+    creators = data.data || [];
+  } catch (error) {
+    console.error('Error fetching creators:', error);
+    // Fallback: empty creators array will show error state
+  }
+
   return (
     <>
+      {/* FontAwesome CDN */}
+      <link 
+        rel="stylesheet" 
+        href="https://use.fontawesome.com/releases/v6.0.0/css/all.css"
+      />
+      
       <div className="min-h-screen bg-gray-900 relative overflow-hidden">
         {/* Background Stars */}
         <div className="absolute inset-0">
@@ -17,70 +67,134 @@ export default function HomePage() {
           <div className="absolute w-0.5 h-0.5 bg-white rounded-full animate-pulse opacity-40" style={{top: '70%', left: '10%', animationDelay: '1.5s'}}></div>
           <div className="absolute w-1 h-1 bg-white rounded-full animate-pulse opacity-60" style={{top: '20%', left: '70%', animationDelay: '0.5s'}}></div>
           <div className="absolute w-0.5 h-0.5 bg-white rounded-full animate-pulse opacity-40" style={{top: '60%', left: '90%', animationDelay: '2.5s'}}></div>
+          <div className="absolute w-1 h-1 bg-white rounded-full animate-pulse opacity-60" style={{top: '40%', left: '20%', animationDelay: '3s'}}></div>
+          <div className="absolute w-0.5 h-0.5 bg-white rounded-full animate-pulse opacity-40" style={{top: '90%', left: '60%', animationDelay: '2s'}}></div>
         </div>
 
         {/* Main Content */}
-        <div className="relative z-10 min-h-screen flex flex-col items-center justify-center px-6 py-12">
-          <div className="w-full max-w-md">
-            
-            {/* Header */}
-            <div className="text-center mb-12">
-              <h1 className="text-4xl font-bold text-white mb-2">
+        <div className="relative z-10 min-h-screen flex flex-col px-6 py-12">
+          
+          {/* Hero Section */}
+          <div className="text-center mb-16 pt-12">
+            <h1 className="text-5xl md:text-6xl font-bold text-white mb-6 animate-slide-up">
+              <span className="bg-gradient-to-r from-blue-400 to-cyan-300 bg-clip-text text-transparent">
                 Creator Hub
-              </h1>
-              <p className="text-white/70 text-lg">
-                OnThePixel.net
-              </p>
+              </span>
+            </h1>
+            <p className="text-xl md:text-2xl text-white/80 mb-8 max-w-3xl mx-auto animate-slide-up" style={{animationDelay: '0.2s'}}>
+              Entdecke unsere Content Creators und folge ihnen auf all ihren Social Media Kanälen
+            </p>
+            <div className="animate-slide-up" style={{animationDelay: '0.4s'}}>
+              <i className="fas fa-users text-4xl text-blue-400 mb-4"></i>
             </div>
-            
-            {/* Info */}
-            <div className="text-center mb-8">
-              <div className="bg-white/10 backdrop-blur-sm text-white rounded-lg p-6 border border-white/20">
-                <i className="fas fa-info-circle text-2xl text-blue-400 mb-4"></i>
-                <h2 className="text-xl font-bold mb-2">Creator Links</h2>
-                <p className="text-white/80 mb-4">
-                  Um die Social Media Links eines Creators zu sehen, besuche:
-                </p>
-                <code className="bg-black/30 px-3 py-1 rounded text-emerald-400 text-sm">
-                  /[creator-name]
-                </code>
+          </div>
+
+          {/* Error State */}
+          {creators.length === 0 && (
+            <div className="flex-1 flex items-center justify-center">
+              <div className="text-center">
+                <i className="fas fa-exclamation-triangle text-red-400 text-4xl mb-4"></i>
+                <h2 className="text-2xl font-bold text-white mb-2">Creators nicht verfügbar</h2>
+                <p className="text-white/60">Die Creator-Daten konnten nicht geladen werden.</p>
               </div>
             </div>
-            
-            {/* Partner */}
-            <div className="text-center mb-8">
-              <h2 className="text-xl font-bold text-white/90 mb-4">Partner</h2>
+          )}
+
+          {/* Creators Grid */}
+          {creators.length > 0 && (
+            <div className="flex-1 max-w-6xl mx-auto w-full">
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-16">
+                {creators.map((creator, index) => (
+                  <Link
+                    key={creator.Name}
+                    href={`/${creator.Name}`}
+                    className="group block"
+                  >
+                    <div 
+                      className="bg-white/10 backdrop-blur-sm border border-white/20 rounded-xl p-6 hover:bg-white/15 transition-all duration-300 hover:scale-105 hover:shadow-2xl hover:border-white/30 animate-slide-up"
+                      style={{animationDelay: `${0.6 + index * 0.1}s`}}
+                    >
+                      {/* Creator Header */}
+                      <div className="text-center mb-6">
+                        <div className="w-16 h-16 bg-gradient-to-r from-blue-500 to-cyan-400 rounded-full flex items-center justify-center mx-auto mb-4 group-hover:scale-110 transition-transform duration-300">
+                          <span className="text-2xl font-bold text-white">
+                            {creator.Name.charAt(0).toUpperCase()}
+                          </span>
+                        </div>
+                        <h3 className="text-xl font-bold text-white mb-2">
+                          {creator.Name}
+                        </h3>
+                        <p className="text-white/60 text-sm">
+                          {getPlatformCount(creator.Platforms)}
+                        </p>
+                      </div>
+
+                      {/* Platform Preview */}
+                      <div className="flex justify-center space-x-3 mb-6">
+                        {getMainPlatforms(creator.Platforms).map((platform, platformIndex) => (
+                          <div
+                            key={platformIndex}
+                            className="w-8 h-8 bg-white/10 rounded-full flex items-center justify-center"
+                          >
+                            <i className={`fab fa-${platform.Icons.replace('x_twitter', 'twitter')} text-white/70 text-sm`}></i>
+                          </div>
+                        ))}
+                        {creator.Platforms.length > 3 && (
+                          <div className="w-8 h-8 bg-white/10 rounded-full flex items-center justify-center">
+                            <span className="text-white/70 text-xs font-medium">
+                              +{creator.Platforms.length - 3}
+                            </span>
+                          </div>
+                        )}
+                      </div>
+
+                      {/* CTA Button */}
+                      <div className="text-center">
+                        <div className="inline-flex items-center px-4 py-2 bg-gradient-to-r from-blue-500 to-cyan-400 rounded-lg text-white font-medium group-hover:from-blue-600 group-hover:to-cyan-500 transition-all duration-300">
+                          <span className="mr-2">Profil besuchen</span>
+                          <i className="fas fa-arrow-right group-hover:translate-x-1 transition-transform duration-300"></i>
+                        </div>
+                      </div>
+                    </div>
+                  </Link>
+                ))}
+              </div>
+            </div>
+          )}
+
+          {/* Partner Section */}
+          <div className="text-center mb-12">
+            <h2 className="text-2xl font-bold text-white/90 mb-6">Partner</h2>
+            <a 
+              href="https://otp.cx" 
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-block max-w-md w-full py-4 px-6 bg-emerald-500/20 backdrop-blur-sm text-white rounded-lg hover:bg-emerald-500/30 transition-all duration-300 hover:scale-105 border border-emerald-400/30"
+            >
+              <div className="flex items-center justify-center">
+                <i className="fas fa-link mr-3 text-xl text-emerald-400"></i>
+                <span className="text-lg font-medium">OnThePixel.net</span>
+              </div>
+            </a>
+          </div>
+
+          {/* Footer */}
+          <div className="text-center">
+            <div className="mb-4">
               <a 
-                href="https://otp.cx" 
+                href="https://onthepixel.net/imprint" 
                 target="_blank"
                 rel="noopener noreferrer"
-                className="block w-full py-4 px-6 bg-emerald-500/20 backdrop-blur-sm text-white rounded-lg hover:bg-emerald-500/30 transition-all duration-300 hover:scale-105 border border-emerald-400/30"
+                className="text-white/50 hover:text-white/80 text-sm transition-colors underline"
               >
-                <div className="flex items-center justify-center">
-                  <i className="fas fa-link mr-3 text-xl text-emerald-400"></i>
-                  <span className="text-lg font-medium">OnThePixel.net</span>
-                </div>
+                Impressum
               </a>
             </div>
-            
-            {/* Footer */}
-            <div className="text-center">
-              <div className="mb-4">
-                <a 
-                  href="https://onthepixel.net/imprint" 
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="text-white/50 hover:text-white/80 text-sm transition-colors underline"
-                >
-                  Impressum
-                </a>
-              </div>
-              <div className="text-white/50 text-sm">
-                <p>&copy; 2025 OnThePixel.net</p>
-              </div>
+            <div className="text-white/50 text-sm">
+              <p>&copy; 2025 OnThePixel.net</p>
             </div>
-            
           </div>
+
         </div>
       </div>
     </>
