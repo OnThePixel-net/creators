@@ -17,10 +17,6 @@ interface ApiResponse {
 }
 
 // Utility Functions
-const getCreatorSlug = (name: string): string => {
-  return name.toLowerCase().replace(/[^a-z0-9]/g, '');
-};
-
 const getPlatformCount = (platforms: Platform[]): string => {
   const count = platforms.length;
   return count === 1 ? '1 Plattform' : `${count} Plattformen`;
