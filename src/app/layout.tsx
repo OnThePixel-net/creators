@@ -8,8 +8,8 @@ export const viewport: Viewport = {
 }
 
 export const metadata: Metadata = {
-  title: "Icebook - Gaming • Entertainment • Community",
-  description: "Icebook - Deine Anlaufstelle für Gaming, Entertainment und Community. Folge uns auf Twitch, Discord, TikTok und mehr!",
+  title: "Leck Eier",
+  description: "Leck Eier",
 };
 
 export default function RootLayout({
