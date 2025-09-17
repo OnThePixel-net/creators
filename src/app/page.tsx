@@ -101,58 +101,57 @@ export default async function HomePage() {
             <div className="flex-1 max-w-6xl mx-auto w-full">
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-16">
                 {creators.map((creator, index) => (
-                  <Link
+                  <div 
                     key={creator.Name}
-                    href={`/${creator.Name}`}
-                    className="group block"
+                    className="bg-white/10 backdrop-blur-sm border border-white/20 rounded-xl p-6 transition-all duration-300 hover:bg-white/15 hover:border-white/30 animate-slide-up"
+                    style={{animationDelay: `${0.6 + index * 0.1}s`}}
                   >
-                    <div 
-                      className="bg-white/10 backdrop-blur-sm border border-white/20 rounded-xl p-6 hover:bg-white/15 transition-all duration-300 hover:scale-105 hover:shadow-2xl hover:border-white/30 animate-slide-up"
-                      style={{animationDelay: `${0.6 + index * 0.1}s`}}
-                    >
-                      {/* Creator Header */}
-                      <div className="text-center mb-6">
-                        <div className="w-16 h-16 bg-gradient-to-r from-blue-500 to-cyan-400 rounded-full flex items-center justify-center mx-auto mb-4 group-hover:scale-110 transition-transform duration-300">
-                          <span className="text-2xl font-bold text-white">
-                            {creator.Name.charAt(0).toUpperCase()}
-                          </span>
-                        </div>
-                        <h3 className="text-xl font-bold text-white mb-2">
+                    {/* Creator Header */}
+                    <div className="text-center mb-6">
+                      <div className="w-16 h-16 bg-gradient-to-r from-blue-500 to-cyan-400 rounded-full flex items-center justify-center mx-auto mb-4">
+                        <span className="text-2xl font-bold text-white">
+                          {creator.Name.charAt(0).toUpperCase()}
+                        </span>
+                      </div>
+                      <Link
+                        href={`/${creator.Name}`}
+                        className="group inline-block"
+                      >
+                        <h3 className="text-xl font-bold text-white mb-2 hover:text-blue-400 transition-colors duration-300 cursor-pointer group-hover:scale-105 transform">
                           {creator.Name}
                         </h3>
-                        <p className="text-white/60 text-sm">
-                          {getPlatformCount(creator.Platforms)}
-                        </p>
-                      </div>
-
-                      {/* Platform Preview */}
-                      <div className="flex justify-center space-x-3 mb-6">
-                        {getMainPlatforms(creator.Platforms).map((platform, platformIndex) => (
-                          <div
-                            key={platformIndex}
-                            className="w-8 h-8 bg-white/10 rounded-full flex items-center justify-center"
-                          >
-                            <i className={`fab fa-${platform.Icons.replace('x_twitter', 'twitter')} text-white/70 text-sm`}></i>
-                          </div>
-                        ))}
-                        {creator.Platforms.length > 3 && (
-                          <div className="w-8 h-8 bg-white/10 rounded-full flex items-center justify-center">
-                            <span className="text-white/70 text-xs font-medium">
-                              +{creator.Platforms.length - 3}
-                            </span>
-                          </div>
-                        )}
-                      </div>
-
-                      {/* CTA Button */}
-                      <div className="text-center">
-                        <div className="inline-flex items-center px-4 py-2 bg-gradient-to-r from-blue-500 to-cyan-400 rounded-lg text-white font-medium group-hover:from-blue-600 group-hover:to-cyan-500 transition-all duration-300">
-                          <span className="mr-2">Profil besuchen</span>
-                          <i className="fas fa-arrow-right group-hover:translate-x-1 transition-transform duration-300"></i>
-                        </div>
-                      </div>
+                      </Link>
+                      <p className="text-white/60 text-sm">
+                        {getPlatformCount(creator.Platforms)}
+                      </p>
                     </div>
-                  </Link>
+
+                    {/* Platform Preview */}
+                    <div className="flex justify-center space-x-3 mb-6">
+                      {getMainPlatforms(creator.Platforms).map((platform, platformIndex) => (
+                        <div
+                          key={platformIndex}
+                          className="w-8 h-8 bg-white/10 rounded-full flex items-center justify-center"
+                        >
+                          <i className={`fab fa-${platform.Icons.replace('x_twitter', 'twitter')} text-white/70 text-sm`}></i>
+                        </div>
+                      ))}
+                      {creator.Platforms.length > 3 && (
+                        <div className="w-8 h-8 bg-white/10 rounded-full flex items-center justify-center">
+                          <span className="text-white/70 text-xs font-medium">
+                            +{creator.Platforms.length - 3}
+                          </span>
+                        </div>
+                      )}
+                    </div>
+
+                    {/* Info Text */}
+                    <div className="text-center">
+                      <p className="text-white/60 text-sm">
+                        Klicke auf den Namen für das Profil
+                      </p>
+                    </div>
+                  </div>
                 ))}
               </div>
             </div>
