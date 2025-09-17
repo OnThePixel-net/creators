@@ -7,7 +7,7 @@ interface Platform {
 }
 
 interface CreatorData {
-  Minecarft_username: string;
+  Minecraft_username: string; // Fixed typo
   Name: string;
   Platforms: Platform[];
 }
@@ -15,17 +15,6 @@ interface CreatorData {
 interface ApiResponse {
   data: CreatorData[];
 }
-
-// Utility Functions
-const getPlatformCount = (platforms: Platform[]): string => {
-  const count = platforms.length;
-  return count === 1 ? '1 Plattform' : `${count} Plattformen`;
-};
-
-const getMainPlatforms = (platforms: Platform[]): Platform[] => {
-  // Zeige die ersten 3 Plattformen als Preview
-  return platforms.slice(0, 3);
-};
 
 export default async function HomePage() {
   // Fetch all creators
@@ -96,30 +85,27 @@ export default async function HomePage() {
             </div>
           )}
 
-          {/* Creators Grid */}
-{creators.length > 0 && (
-  <div className="flex-1 max-w-6xl mx-auto w-full">
-    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-16">
-      {creators.map((creator, index) => (
-        <a
-          key={creator.Name}
-          href={`/${creator.Name}`}
-          target="_blank"
-          rel="noopener noreferrer"
-          className="block w-full py-4 px-6 bg-white/10 backdrop-blur-sm text-white rounded-lg hover:bg-white/20 transition-all duration-300 hover:scale-105 border border-white/20 animate-slide-up"
-          style={{animationDelay: `${0.6 + index * 0.1}s`}}
-        >
-          <div className="flex items-center justify-center">
-            <span className="text-lg font-medium capitalize">
-              {`/${creator.Name}`}
-            </span>
-          </div>
-        </a>
-      ))}
-    </div>
-  </div>
-)}
-              
+          {/* Creators Grid - Using Next.js Link for better performance */}
+          {creators.length > 0 && (
+            <div className="flex-1 max-w-6xl mx-auto w-full">
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-16">
+                {creators.map((creator, index) => (
+                  <Link
+                    key={creator.Name}
+                    href={`/${creator.Name}`}
+                    className="block w-full py-4 px-6 bg-white/10 backdrop-blur-sm text-white rounded-lg hover:bg-white/20 transition-all duration-300 hover:scale-105 border border-white/20 animate-slide-up"
+                    style={{animationDelay: `${0.6 + index * 0.1}s`}}
+                  >
+                    <div className="flex items-center justify-center">
+                      <span className="text-lg font-medium capitalize">
+                        {`/${creator.Name}`}
+                      </span>
+                    </div>
+                  </Link>
+                ))}
+              </div>
+            </div>
+          )}
 
           {/* Partner Section */}
           <div className="text-center mb-12">
@@ -159,4 +145,3 @@ export default async function HomePage() {
     </>
   );
 }
-
