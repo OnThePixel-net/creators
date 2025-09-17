@@ -97,65 +97,29 @@ export default async function HomePage() {
           )}
 
           {/* Creators Grid */}
-          {creators.length > 0 && (
-            <div className="flex-1 max-w-6xl mx-auto w-full">
-              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-16">
-                {creators.map((creator, index) => (
-                  <div 
-                    key={creator.Name}
-                    className="bg-white/10 backdrop-blur-sm border border-white/20 rounded-xl p-6 transition-all duration-300 hover:bg-white/15 hover:border-white/30 animate-slide-up"
-                    style={{animationDelay: `${0.6 + index * 0.1}s`}}
-                  >
-                    {/* Creator Header */}
-                    <div className="text-center mb-6">
-                      <div className="w-16 h-16 bg-gradient-to-r from-blue-500 to-cyan-400 rounded-full flex items-center justify-center mx-auto mb-4">
-                        <span className="text-2xl font-bold text-white">
-                          {creator.Name.charAt(0).toUpperCase()}
-                        </span>
-                      </div>
-                      <Link
-                        href={`/${creator.Name}`}
-                        className="group inline-block"
-                      >
-                        <h3 className="text-xl font-bold text-white mb-2 hover:text-blue-400 transition-colors duration-300 cursor-pointer group-hover:scale-105 transform">
-                          {creator.Name}
-                        </h3>
-                      </Link>
-                      <p className="text-white/60 text-sm">
-                        {getPlatformCount(creator.Platforms)}
-                      </p>
-                    </div>
-
-                    {/* Platform Preview */}
-                    <div className="flex justify-center space-x-3 mb-6">
-                      {getMainPlatforms(creator.Platforms).map((platform, platformIndex) => (
-                        <div
-                          key={platformIndex}
-                          className="w-8 h-8 bg-white/10 rounded-full flex items-center justify-center"
-                        >
-                          <i className={`fab fa-${platform.Icons.replace('x_twitter', 'twitter')} text-white/70 text-sm`}></i>
-                        </div>
-                      ))}
-                      {creator.Platforms.length > 3 && (
-                        <div className="w-8 h-8 bg-white/10 rounded-full flex items-center justify-center">
-                          <span className="text-white/70 text-xs font-medium">
-                            +{creator.Platforms.length - 3}
-                          </span>
-                        </div>
-                      )}
-                    </div>
-
-                    {/* Info Text */}
-                    <div className="text-center">
-                      <p className="text-white/60 text-sm">
-                        Klicke auf den Namen für das Profil
-                      </p>
-                    </div>
-                  </div>
-                ))}
-              </div>
-            </div>
-          )}
+{creators.length > 0 && (
+  <div className="flex-1 max-w-6xl mx-auto w-full">
+    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-16">
+      {creators.map((creator, index) => (
+        <a
+          key={creator.Name}
+          href={`/${creator.Name}`}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="block w-full py-4 px-6 bg-white/10 backdrop-blur-sm text-white rounded-lg hover:bg-white/20 transition-all duration-300 hover:scale-105 border border-white/20 animate-slide-up"
+          style={{animationDelay: `${0.6 + index * 0.1}s`}}
+        >
+          <div className="flex items-center justify-center">
+            <span className="text-lg font-medium capitalize">
+              {`/${creator.Name}`}
+            </span>
+          </div>
+        </a>
+      ))}
+    </div>
+  </div>
+)}
+              
 
           {/* Partner Section */}
           <div className="text-center mb-12">
@@ -195,3 +159,4 @@ export default async function HomePage() {
     </>
   );
 }
+
