@@ -49,7 +49,7 @@ export default async function CreatorPage({ params }: CreatorPageProps) {
     if (!data || data.length === 0) throw new Error('Creator not found');
     
     creatorData = data[0];
-  } catch (error) {
+  } catch (_error) { // ✅ Fixed: prefixed with underscore to indicate intentionally unused
     return (
       <div className="min-h-screen bg-gray-900 flex items-center justify-center px-4">
         <div className="text-center">
@@ -63,12 +63,6 @@ export default async function CreatorPage({ params }: CreatorPageProps) {
 
   return (
     <>
-      {/* FontAwesome CDN */}
-      <link 
-        rel="stylesheet" 
-        href="https://use.fontawesome.com/releases/v6.0.0/css/all.css"
-      />
-      
       <div className="min-h-screen bg-gray-900 relative overflow-hidden">
         {/* Background Stars */}
         <div className="absolute inset-0">
@@ -180,7 +174,7 @@ export async function generateMetadata({ params }: CreatorPageProps): Promise<Me
         description: `Folge ${creatorData.Name} auf all seinen Social Media Kanälen`
       }
     };
-  } catch (error) {
+  } catch (_error) { // ✅ Fixed: prefixed with underscore to indicate intentionally unused
     return {
       title: 'Creator nicht gefunden – OnThePixel',
       description: 'Der gesuchte Creator konnte nicht gefunden werden.',
