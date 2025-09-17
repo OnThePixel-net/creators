@@ -81,8 +81,8 @@ export default async function HomePage() {
 
           {/* Creators Grid - Using Next.js Link for better performance */}
           {creators.length > 0 && (
-            <div className="flex-1 max-w-6xl mx-auto w-full">
-              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-16">
+            <div className="flex-1 max-w-2xl mx-auto w-full">
+              <div className="grid grid-cols-1 gap-4 mb-16">
                 {creators.map((creator, index) => (
                   <Link
                     key={creator.Name}
@@ -92,7 +92,7 @@ export default async function HomePage() {
                   >
                     <div className="flex items-center justify-center">
                       <span className="text-lg font-medium capitalize">
-                        {`/${creator.Name}`}
+                        {creator.Name}
                       </span>
                     </div>
                   </Link>
@@ -139,4 +139,3 @@ export default async function HomePage() {
     </>
   );
 }
-
