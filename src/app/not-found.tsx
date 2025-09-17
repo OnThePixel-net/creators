@@ -15,8 +15,6 @@ return (
 <div className=“absolute w-1 h-1 bg-white rounded-full animate-pulse opacity-60” style={{top: ‘20%’, left: ‘70%’, animationDelay: ‘0.5s’}}></div>
 <div className=“absolute w-0.5 h-0.5 bg-white rounded-full animate-pulse opacity-40” style={{top: ‘60%’, left: ‘90%’, animationDelay: ‘2.5s’}}></div>
 </div>
-
-```
     {/* Main Content */}
     <div className="relative z-10 min-h-screen flex flex-col items-center justify-center px-6 py-12">
       <div className="w-full max-w-md">
@@ -98,7 +96,5 @@ return (
     </div>
   </div>
 </>
-```
-
 );
 }
