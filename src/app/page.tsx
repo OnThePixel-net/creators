@@ -66,12 +66,6 @@ export default async function HomePage() {
                 Creator Hub
               </span>
             </h1>
-            <p className="text-xl md:text-2xl text-white/80 mb-8 max-w-3xl mx-auto animate-slide-up" style={{animationDelay: '0.2s'}}>
-              Entdecke unsere Content Creators und folge ihnen auf all ihren Social Media Kanälen
-            </p>
-            <div className="animate-slide-up" style={{animationDelay: '0.4s'}}>
-              <i className="fas fa-users text-4xl text-blue-400 mb-4"></i>
-            </div>
           </div>
 
           {/* Error State */}
@@ -145,3 +139,4 @@ export default async function HomePage() {
     </>
   );
 }
+
