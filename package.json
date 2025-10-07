@@ -36,7 +36,7 @@
     "wrangler": "^4.21.0"
   },
   "scripts": {
-    "build": "next build && opennextjs-cloudflare",
+    "build": "opennextjs-cloudflare build",
     "dev": "next dev",
     "deploy": "npm run build && wrangler deploy",
     "preview": "npm run build && wrangler pages dev .open-next/worker"
