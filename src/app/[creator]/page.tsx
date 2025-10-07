@@ -115,7 +115,7 @@ export default async function CreatorPage({ params }: CreatorPageProps) {
             <div className="text-center mb-8">
               <h2 className="text-xl font-bold text-white/90 mb-4">Partner</h2>
               <a 
-                href="https://otp.cx" 
+                href="https://onthepixel.net" 
                 target="_blank"
                 rel="noopener noreferrer"
                 className="block w-full py-4 px-6 bg-emerald-500/20 backdrop-blur-sm text-white rounded-lg hover:bg-emerald-500/30 transition-all duration-300 hover:scale-105 border border-emerald-400/30"
