@@ -29,7 +29,8 @@ const getIconClass = (platform: string): string => {
     'snapchat': 'fab fa-snapchat-ghost',
     'linkedin': 'fab fa-linkedin-in',
     'github': 'fab fa-github',
-    'spotify': 'fab fa-spotify'
+    'spotify': 'fab fa-spotify',
+    'whatsapp': 'fab fa-whatsapp'
   };
   return iconMap[platform.toLowerCase()] || 'fas fa-link';
 };
