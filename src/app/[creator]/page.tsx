@@ -1,6 +1,5 @@
 import { Metadata } from 'next';
 
-// TypeScript Interfaces - Next.js 15 Format
 interface Platform {
   Icons: string;
   Link: string;
@@ -16,7 +15,6 @@ interface CreatorPageProps {
   params: Promise<{ creator: string }>;
 }
 
-// Utility Functions
 const getIconClass = (platform: string): string => {
   const iconMap: Record<string, string> = {
     'twitch': 'fab fa-twitch',
@@ -35,19 +33,18 @@ const getIconClass = (platform: string): string => {
   return iconMap[platform.toLowerCase()] || 'fas fa-link';
 };
 
-// Main Component
 export default async function CreatorPage({ params }: CreatorPageProps) {
   const { creator } = await params;
-  
+
   let creatorData: CreatorData;
-  
+
   try {
     const res = await fetch(`https://cms.onthepixel.net/items/Creators?filter[Name][_eq]=${creator}`);
     if (!res.ok) throw new Error('API Error');
-    
+
     const { data }: { data: CreatorData[] } = await res.json();
     if (!data || data.length === 0) throw new Error('Creator not found');
-    
+
     creatorData = data[0];
   } catch {
     return (
@@ -63,13 +60,12 @@ export default async function CreatorPage({ params }: CreatorPageProps) {
 
   return (
     <>
-      <link 
-        rel="stylesheet" 
+      <link
+        rel="stylesheet"
         href="https://use.fontawesome.com/releases/v6.0.0/css/all.css"
       />
-      
+
       <div className="min-h-screen bg-gray-900 relative overflow-hidden">
-        {/* Background Stars */}
         <div className="absolute inset-0">
           <div className="absolute w-1 h-1 bg-white rounded-full animate-pulse opacity-60" style={{top: '10%', left: '15%', animationDelay: '0s'}}></div>
           <div className="absolute w-0.5 h-0.5 bg-white rounded-full animate-pulse opacity-40" style={{top: '80%', left: '25%', animationDelay: '1s'}}></div>
@@ -79,18 +75,15 @@ export default async function CreatorPage({ params }: CreatorPageProps) {
           <div className="absolute w-0.5 h-0.5 bg-white rounded-full animate-pulse opacity-40" style={{top: '60%', left: '90%', animationDelay: '2.5s'}}></div>
         </div>
 
-        {/* Main Content */}
         <div className="relative z-10 min-h-screen flex flex-col items-center justify-center px-6 py-12">
           <div className="w-full max-w-md">
-            
-            {/* Header */}
+
             <div className="text-center mb-12">
               <h1 className="text-4xl font-bold text-white mb-2">
                 {creatorData.Name}
               </h1>
             </div>
-            
-            {/* Social Media Links */}
+
             <div className="space-y-3 mb-8">
               {creatorData.Platforms.map((platform, index) => (
                 
@@ -109,12 +102,11 @@ export default async function CreatorPage({ params }: CreatorPageProps) {
                 </a>
               ))}
             </div>
-            
-            {/* Partner */}
+
             <div className="text-center mb-8">
               <h2 className="text-xl font-bold text-white/90 mb-4">Partner</h2>
-              <a 
-                href="https://onthepixel.net" 
+              
+                href="https://onthepixel.net"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="block w-full py-4 px-6 bg-emerald-500/20 backdrop-blur-sm text-white rounded-lg hover:bg-emerald-500/30 transition-all duration-300 hover:scale-105 border border-emerald-400/30"
@@ -125,12 +117,11 @@ export default async function CreatorPage({ params }: CreatorPageProps) {
                 </div>
               </a>
             </div>
-            
-            {/* Footer */}
+
             <div className="text-center">
               <div className="mb-4">
-                <a 
-                  href="https://onthepixel.net/imprint" 
+                
+                  href="https://onthepixel.net/imprint"
                   target="_blank"
                   rel="noopener noreferrer"
                   className="text-white/50 hover:text-white/80 text-sm transition-colors underline"
@@ -142,7 +133,7 @@ export default async function CreatorPage({ params }: CreatorPageProps) {
                 <p>&copy; 2025 OnThePixel.net</p>
               </div>
             </div>
-            
+
           </div>
         </div>
       </div>
@@ -152,16 +143,16 @@ export default async function CreatorPage({ params }: CreatorPageProps) {
 
 export async function generateMetadata({ params }: CreatorPageProps): Promise<Metadata> {
   const { creator } = await params;
-  
+
   try {
     const res = await fetch(`https://cms.onthepixel.net/items/Creators?filter[Name][_eq]=${creator}`);
     if (!res.ok) throw new Error('Creator not found');
-    
+
     const { data }: { data: CreatorData[] } = await res.json();
     if (!data || data.length === 0) throw new Error('Creator not found');
-    
+
     const creatorData = data[0];
-    
+
     return {
       title: `${creatorData.Name} – Content Creator | OnThePixel`,
       description: `Folge ${creatorData.Name} auf all seinen Social Media Kanälen. Entdecke Content auf Twitch, Discord, TikTok und mehr.`,
