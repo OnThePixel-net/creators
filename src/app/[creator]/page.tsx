@@ -86,7 +86,7 @@ export default async function CreatorPage({ params }: CreatorPageProps) {
 
             <div className="space-y-3 mb-8">
               {creatorData.Platforms.map((platform, index) => (
-                
+                <a
                   key={index}
                   href={platform.Link}
                   target="_blank"
@@ -105,7 +105,7 @@ export default async function CreatorPage({ params }: CreatorPageProps) {
 
             <div className="text-center mb-8">
               <h2 className="text-xl font-bold text-white/90 mb-4">Partner</h2>
-              
+              <a
                 href="https://onthepixel.net"
                 target="_blank"
                 rel="noopener noreferrer"
@@ -120,7 +120,7 @@ export default async function CreatorPage({ params }: CreatorPageProps) {
 
             <div className="text-center">
               <div className="mb-4">
-                
+                <a
                   href="https://onthepixel.net/imprint"
                   target="_blank"
                   rel="noopener noreferrer"
