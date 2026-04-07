@@ -7,7 +7,7 @@ interface Platform {
 }
 
 interface CreatorData {
-  Minecarft_username: string;
+  Minecraft_username: string;
   Name: string;
   Platforms: Platform[];
 }
@@ -37,9 +37,8 @@ const getIconClass = (platform: string): string => {
 
 // Main Component
 export default async function CreatorPage({ params }: CreatorPageProps) {
-  const { creator } = await params; // ✅ Await params
+  const { creator } = await params;
   
-  // Fetch creator data
   let creatorData: CreatorData;
   
   try {
@@ -50,7 +49,7 @@ export default async function CreatorPage({ params }: CreatorPageProps) {
     if (!data || data.length === 0) throw new Error('Creator not found');
     
     creatorData = data[0];
-  } catch { // ✅ Fixed: removed unused error parameter
+  } catch {
     return (
       <div className="min-h-screen bg-gray-900 flex items-center justify-center px-4">
         <div className="text-center">
@@ -64,7 +63,6 @@ export default async function CreatorPage({ params }: CreatorPageProps) {
 
   return (
     <>
-      {/* FontAwesome CDN */}
       <link 
         rel="stylesheet" 
         href="https://use.fontawesome.com/releases/v6.0.0/css/all.css"
@@ -95,7 +93,7 @@ export default async function CreatorPage({ params }: CreatorPageProps) {
             {/* Social Media Links */}
             <div className="space-y-3 mb-8">
               {creatorData.Platforms.map((platform, index) => (
-                <a
+                
                   key={index}
                   href={platform.Link}
                   target="_blank"
@@ -152,9 +150,8 @@ export default async function CreatorPage({ params }: CreatorPageProps) {
   );
 }
 
-// Metadata Generation - auch mit async params
 export async function generateMetadata({ params }: CreatorPageProps): Promise<Metadata> {
-  const { creator } = await params; // ✅ Await params hier auch
+  const { creator } = await params;
   
   try {
     const res = await fetch(`https://cms.onthepixel.net/items/Creators?filter[Name][_eq]=${creator}`);
@@ -181,7 +178,7 @@ export async function generateMetadata({ params }: CreatorPageProps): Promise<Me
         description: `Folge ${creatorData.Name} auf all seinen Social Media Kanälen`
       }
     };
-  } catch { // ✅ Fixed: removed unused error parameter
+  } catch {
     return {
       title: 'Creator nicht gefunden – OnThePixel',
       description: 'Der gesuchte Creator konnte nicht gefunden werden.',
