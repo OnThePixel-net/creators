@@ -39,13 +39,13 @@ export default async function CreatorPage({ params }: CreatorPageProps) {
   let creatorData: CreatorData;
 
   try {
-    const res = await fetch(`https://cms.onthepixel.net/items/Creators?filter[Name][_eq]=${creator}`);
+    const res = await fetch(`https://onthepixel.net/api/creators?name=${encodeURIComponent(creator)}`);
     if (!res.ok) throw new Error('API Error');
 
-    const { data }: { data: CreatorData[] } = await res.json();
-    if (!data || data.length === 0) throw new Error('Creator not found');
+    const { data }: { data?: CreatorData } = await res.json();
+    if (!data) throw new Error('Creator not found');
 
-    creatorData = data[0];
+    creatorData = data;
   } catch {
     return (
       <div className="min-h-screen bg-gray-900 flex items-center justify-center px-4">
@@ -145,13 +145,13 @@ export async function generateMetadata({ params }: CreatorPageProps): Promise<Me
   const { creator } = await params;
 
   try {
-    const res = await fetch(`https://cms.onthepixel.net/items/Creators?filter[Name][_eq]=${creator}`);
+    const res = await fetch(`https://onthepixel.net/api/creators?name=${encodeURIComponent(creator)}`);
     if (!res.ok) throw new Error('Creator not found');
 
-    const { data }: { data: CreatorData[] } = await res.json();
-    if (!data || data.length === 0) throw new Error('Creator not found');
+    const { data }: { data?: CreatorData } = await res.json();
+    if (!data) throw new Error('Creator not found');
 
-    const creatorData = data[0];
+    const creatorData = data;
 
     return {
       title: `${creatorData.Name} – Content Creator | OnThePixel`,
