@@ -21,7 +21,7 @@ export default async function HomePage() {
   let creators: CreatorData[] = [];
   
   try {
-    const res = await fetch('https://cms.onthepixel.net/items/Creators', {
+    const res = await fetch('https://onthepixel.net/api/creators', {
       // Add cache revalidation for better performance
       next: { revalidate: 300 } // 5 minutes
     });
